@@ -1,0 +1,19 @@
+{% extends "vacancy/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="content-section">
+        <p> {{object.title}}</p>
+        <div>
+            <input type="file" name="" id="">
+            <label>Upload Your CV</label>
+        </div>
+        <button class="btn btn-success">Submit</button>
+        <div class="border-top-pt-3">
+            <small class="text-muted">
+                <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
+    
+   </div> 
+{% endblock content %}   

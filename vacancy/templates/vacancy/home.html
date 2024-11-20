@@ -1,0 +1,42 @@
+
+{% extends "vacancy/base.html" %}
+{% load vacancy_tags %}
+{% load static %}
+
+{% block content %}
+
+    {% if user.is_authenticated and user.profile%} 
+        <h2>The Recommended Jobs</h2>
+    {% endif %}
+    {% for vacancy in vacancies %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata row">
+                    <h2 class =" col-9 "><a class="article-title" href="{% url 'vacancy-detail' vacancy.pk %}">{{ vacancy.title }}</a></h2>
+        
+                    {% if user.is_authenticated and user.profile%} 
+                        <strong class=" text-info col-2 " >{% calculate_recommendation user.profile.get_skill_list vacancy.get_skill_list %} % </strong>
+                    {% endif %}
+                    
+                </div>
+                    <p class="mb-0" >{{ vacancy.company.companyprofile.company_name }}</p>
+                    <small class="text-muted">{{ vacancy.date_posted|timesince }}</small>
+               
+               
+                <p class="article-content my-3" >{{ vacancy.short_description }}</p>
+                <p class="skill">
+                    <span> Skills: </span>
+                        {% for skill in vacancy.skill.all %}
+                    <span class = 'text-muted'>{{ skill.name }}</span>
+
+                        {% endfor %}
+
+                </p>
+                <a class="btn btn-info" href="{% url 'vacancy-detail' vacancy.pk %}">View Detail</a>
+                {% if user.is_authenticated and user.profile %}
+                    <a class="btn btn-primary" href="{% url 'apply' vacancy.pk %}">Apply</a>
+                {% endif %}    
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
